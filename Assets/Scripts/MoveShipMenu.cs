@@ -9,21 +9,22 @@ public class MoveShipMenu : MonoBehaviour
     public Vector3[] positions = new Vector3[]
     {
         new Vector3(0f, 0f, 0f),
-        new Vector3(0f, -1.5f, 0f),
         new Vector3(0f, -2f, 0f)
     };
 
     // Escena que es carrega per cada opció (mateix ordre que positions).
     // Deixa-la buida ("") per sortir del joc.
-    public string[] scenes = new string[] { "SampleScene", "Credits", "" };
+    public string[] scenes = new string[] { "SampleScene", "", "" };
 
     // Paràmetres de l'enlairament
     public float acceleration = 20f;   // com de ràpid arriba a la velocitat màxima
     public float maxSpeed = 15f;       // velocitat final
     public float launchDuration = 1.5f; // segons abans de canviar d'escena
 
-    // Fill SmokeEffect de la nau: desactivat fins que s'enlaira
-    public GameObject smokeEffect;
+        // Efecte de fum que apareix en enlairar-se (arrossega-hi el prefab SmokeEffect)
+    public GameObject smokeEffectPrefab;
+    // Posició del fum relativa a la nau (en coordenades locals; z negativa = darrere)
+    public Vector3 smokeOffset = new Vector3(0f, 0f, -1f);
 
     private int currentIndex = 0;
     private bool launching = false;
@@ -31,8 +32,6 @@ public class MoveShipMenu : MonoBehaviour
     void Start()
     {
         transform.position = positions[currentIndex];
-        if (smokeEffect != null)
-            smokeEffect.SetActive(false);
     }
 
     void Update()
@@ -68,8 +67,15 @@ public class MoveShipMenu : MonoBehaviour
     {
         launching = true;
 
-        if (smokeEffect != null)
-            smokeEffect.SetActive(true);
+        // Crea el fum com a fill de la nau perquè la segueixi. Com que el
+        // sistema de partícules simula en espai World, les partícules ja
+        // emeses es queden enrere i formen una estela.
+        if (smokeEffectPrefab != null)
+        {
+            GameObject smoke = Instantiate(smokeEffectPrefab, transform);
+            smoke.transform.localPosition = smokeOffset;
+            smoke.transform.localRotation = Quaternion.Euler(0f, 180f, 0f); // emet cap enrere
+        }
 
         float speed = 0f;
         float elapsed = 0f;
