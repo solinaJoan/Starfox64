@@ -14,7 +14,7 @@ public class MoveShipMenu : MonoBehaviour
 
     // Escena que es carrega per cada opció (mateix ordre que positions).
     // Deixa-la buida ("") per sortir del joc.
-    public string[] scenes = new string[] { "SampleScene", "", "" };
+    public string[] scenes = new string[] { "Game", "Credits", "" };
 
     // Paràmetres de l'enlairament
     public float acceleration = 20f;   // com de ràpid arriba a la velocitat màxima
