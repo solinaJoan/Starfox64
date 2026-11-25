@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class MoveShip : MonoBehaviour
 {
@@ -15,8 +14,12 @@ public class MoveShip : MonoBehaviour
     public float maxAimAngle = 40f;    // gir màxim respecte l'eix Z
     public float rotationSpeed = 10f;  // com de ràpid gira cap al ratolí
 
+    // Dany que rep l'escut en xocar contra un obstacle
+    public int collisionDamage = 30;
+
     private Rigidbody rb;
     private Camera cam;
+    private PlayerStats stats;
 
     void Start()
     {
@@ -24,6 +27,10 @@ public class MoveShip : MonoBehaviour
         cam = Camera.main;
         if (model == null)
             model = transform.Find("ship");
+
+        stats = GetComponent<PlayerStats>();
+        if (stats == null)
+            stats = gameObject.AddComponent<PlayerStats>();
     }
 
     void FixedUpdate()
@@ -73,9 +80,11 @@ public class MoveShip : MonoBehaviour
         return Vector3.RotateTowards(Vector3.forward, dir, maxAimAngle * Mathf.Deg2Rad, 0f);
     }
 
+    // En xocar es perd escut; PlayerStats s'encarrega de treure una vida
+    // i reiniciar el nivell quan l'escut arriba a 0.
     private void OnCollisionEnter(Collision collision)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        stats.TakeDamage(collisionDamage);
     }
 
     private void OnEnable()

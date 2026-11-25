@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <authoring_tool>Star Pear SixDaeFour</authoring_tool>
+        </contributor>
+        <created>2026-10-11T18:43:11.962Z</created>
+        <modified>2026-10-11T18:43:11.962Z</modified>
+		<unit meter="0.01" name="centimeter" />
+        <up_axis>Y_UP</up_axis>
+    </asset>
+    <library_images>
+        <image id="tex_0">
+            <init_from>tex_1032808.png</init_from>
+        </image>
+    </library_images>
+    <library_effects>
+        <effect id="effect0">
+            <profile_COMMON>
+                <newparam sid="surface0">
+                    <surface type="2D">
+                        <init_from>tex_0</init_from>
+                    </surface>
+                </newparam>
+                <newparam sid="sampler0">
+                    <sampler2D>
+                        <source>surface0</source>
+                    </sampler2D>
+                </newparam>
+                <technique sid="COMMON">
+                    <blinn>
+                        <diffuse>
+                            <texture texture="sampler0" texcoord="UVSET0"></texture>
+                        </diffuse>
+                    </blinn>
+                </technique>
+            </profile_COMMON>
+        </effect>
+    </library_effects>
+    <library_materials>
+        <material id="mat0" name="Mat0">
+            <instance_effect url="#effect0"/>
+        </material>
+    </library_materials>
+    <library_geometries>
+        <geometry id="meshMesh0">
+            <mesh>
+                <source id="pointsMesh0">
+                    <float_array id="pointarrayMesh0" count="9">0 0 -88 -50 0 20 50 0 20</float_array>
+                    <technique_common>
+                        <accessor count="3" source="#pointarrayMesh0" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="uvsMesh0">
+                    <float_array id="uvarrayMesh0" count="6">0.5 1.19921875 -0.125 0 1.125 0</float_array>
+                    <technique_common>
+                        <accessor count="3" source="#uvarrayMesh0" stride="2">
+                            <param name="S" type="float"/>
+                            <param name="T" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="verticesMesh0">
+                    <input semantic="POSITION" source="#pointsMesh0"/>
+                </vertices>
+                <polylist count="1" material="Material1">
+                    <input offset="0" semantic="VERTEX" source="#verticesMesh0"/>
+                    <input offset="1" semantic="TEXCOORD" source="#uvsMesh0" set="0"/>
+                    <vcount>3</vcount>
+                    <p>0 0 1 1 2 2</p>
+                </polylist>
+            </mesh>
+        </geometry>
+    </library_geometries>
+    <library_visual_scenes>
+        <visual_scene id="VisualSceneNode">
+            <node id="node_Mesh0" name="Mesh0">
+                <scale sid="scale">2.505 2.505 2.505</scale>
+                <instance_geometry url="#meshMesh0">
+                    <bind_material>
+                        <technique_common>
+                            <instance_material symbol="Material1" target="#mat0">
+                                <bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0"/>
+                            </instance_material>
+                        </technique_common>
+                    </bind_material>
+                </instance_geometry>
+            </node>
+        </visual_scene>
+    </library_visual_scenes>
+    <scene>
+        <instance_visual_scene url="#VisualSceneNode"/>
+    </scene>
+</COLLADA>

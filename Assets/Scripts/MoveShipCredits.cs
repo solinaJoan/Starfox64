@@ -15,7 +15,6 @@ public class MoveShipCredits : MonoBehaviour
     public float aimDistance = 10f;    // a quina distància (en Z) davant la nau es troba el punt d'apuntat
     public float maxAimAngle = 35f;    // gir màxim de la nau respecte l'eix Z
     public float rotationSpeed = 8f;   // com de ràpid gira cap al ratolí
-    public float mouseSteer = 1f;      // quant desvia la nau cap on apunta (0 = només gira)
 
     private Rigidbody rb;
     private Camera cam;
@@ -33,14 +32,11 @@ public class MoveShipCredits : MonoBehaviour
         Quaternion rot = Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
         rb.MoveRotation(rot);
 
-        // 2) Moviment: sempre endavant en Z, fletxes al pla XY
+        // 2) Moviment: endavant en la direcció on apunta la nau,
+        //    fletxes al pla local de la nau (dreta / amunt)
         Vector2 input = moveAction.ReadValue<Vector2>();
-        Vector3 velocity = Vector3.forward * forwardSpeed;
-        velocity += new Vector3(input.x, input.y, 0f) * horizontalSpeed;
-
-        // Desviació cap on apunta la nau (només la component XY)
-        Vector3 fwd = rot * Vector3.forward;
-        velocity += new Vector3(fwd.x, fwd.y, 0f) * forwardSpeed * mouseSteer;
+        Vector3 velocity = rot * Vector3.forward * forwardSpeed;
+        velocity += (rot * Vector3.right * input.x + rot * Vector3.up * input.y) * horizontalSpeed;
 
         Vector3 pos = rb.position + velocity * Time.fixedDeltaTime;
         pos.x = Mathf.Clamp(pos.x, limitX.x, limitX.y);

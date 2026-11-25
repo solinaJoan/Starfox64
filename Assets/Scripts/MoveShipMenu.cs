@@ -100,6 +100,7 @@ public class MoveShipMenu : MonoBehaviour
         }
         else
         {
+            PlayerStats.ResetRun();   // partida nova: vides i bombes inicials
             SceneManager.LoadScene(scene);
         }
     }
