@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour
         // 5. Disparar
         if (Time.time >= nextFireTime)
         {
-            Shoot();
+            // Shoot();
             nextFireTime = Time.time + 1f / fireRate;
         }
     }
